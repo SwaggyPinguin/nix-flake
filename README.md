@@ -15,12 +15,12 @@ git clone https://github.com/SwaggyPinguin/nix-flake.git
 ## Install Home-Manager with the Flake
 
 ```bash
-nix build '.#homeConfigurations.user.activationPackage'
+nix build '.#homeConfigurations."noah@pc".activationPackage'
 ./result/activate
 rm -rf result/activate
 
 # or run
-nix run nixpkgs#home-manager -- build --flake .#user switch
+nix run nixpkgs#home-manager -- build --flake .#noah@pc switch
 ```
 
 ### Use Home-Manager
@@ -28,5 +28,7 @@ nix run nixpkgs#home-manager -- build --flake .#user switch
 After the installation of Home-Manager use this command.
 
 ```bash
-home-manager switch --flake .#user
+home-manager switch --flake .#noah@pc
+# or
+just home
 ```
