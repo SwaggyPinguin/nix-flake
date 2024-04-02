@@ -1,4 +1,13 @@
-{ pkgs, userSettings, systemSettings, ... }: {
+{ config, pkgs, userSettings, systemSettings, ... }: {
+  imports = [ ../../modules/home ];
+
+  modules = { herbstluftwm.enable = false; };
+
+  default = {
+    shell = "zsh";
+    terminal = "kitty";
+  };
+
   home = {
     username = userSettings.username;
     homeDirectory = "/home/" + userSettings.username;
@@ -6,11 +15,18 @@
     enableNixpkgsReleaseCheck = false;
   };
 
-  imports = [ ./modules ./modules/git.nix ];
-
-  modules = { herbstluftwm.enable = true; };
-
-  home.packages = with pkgs; [ vim neovim curl wget libgcc zig ];
+  home.packages = with pkgs; [
+    vim
+    neovim
+    curl
+    wget
+    libgcc
+    zig
+    vscode
+    direnv
+    nix-direnv
+    nixfmt
+  ];
 
   home.sessionVariables = { EDITOR = "nvim"; };
 
