@@ -1,5 +1,4 @@
-{ config, lib, pkgs, ... }:
-{
+{ config, lib, pkgs, ... }: {
   config = lib.mkIf config.modules.herbstluftwm.enable {
     xsession = {
       windowManager.herbstluftwm = let

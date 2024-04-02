@@ -1,5 +1,4 @@
-{ config, lib, pkgs, userSettings, ... }:
-{
+{ config, lib, pkgs, userSettings, ... }: {
   config = lib.mkIf (config.default.terminal == "kitty") {
     home.sessionVariables.TERMINAL = "kitty";
     programs.kitty = {

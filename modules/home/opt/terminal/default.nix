@@ -1,3 +1,1 @@
-{
-  imports = [ ./kitty ];
-}
+{ imports = [ ./kitty ]; }
