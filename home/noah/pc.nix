@@ -1,5 +1,5 @@
 { config, pkgs, userSettings, systemSettings, ... }: {
-  imports = [ ../../modules/home ];
+  imports = [ ../../modules/home ../shared ];
 
   modules = { herbstluftwm.enable = false; };
 
@@ -15,18 +15,7 @@
     enableNixpkgsReleaseCheck = false;
   };
 
-  home.packages = with pkgs; [
-    vim
-    neovim
-    curl
-    wget
-    libgcc
-    zig
-    vscode
-    direnv
-    nix-direnv
-    nixfmt
-  ];
+  home.packages = with pkgs; [ ];
 
   home.sessionVariables = { EDITOR = "nvim"; };
 
