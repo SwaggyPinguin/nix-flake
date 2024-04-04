@@ -3,6 +3,7 @@
     vim
     neovim
     vscode
+    element-desktop
     curl
     wget
     libgcc
