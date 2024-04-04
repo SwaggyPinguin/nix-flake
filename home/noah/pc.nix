@@ -1,7 +1,13 @@
-{ config, pkgs, userSettings, systemSettings, ... }: {
-  imports = [ ../../modules/home ../shared ];
+{
+  config,
+  pkgs,
+  userSettings,
+  systemSettings,
+  ...
+}: {
+  imports = [../../modules/home ../shared];
 
-  modules = { herbstluftwm.enable = false; };
+  modules = {herbstluftwm.enable = false;};
 
   default = {
     shell = "zsh";
@@ -15,9 +21,9 @@
     enableNixpkgsReleaseCheck = false;
   };
 
-  home.packages = with pkgs; [ ];
+  home.packages = with pkgs; [];
 
-  home.sessionVariables = { EDITOR = "nvim"; };
+  home.sessionVariables = {EDITOR = "nvim";};
 
   xdg.enable = true;
   xdg.mime.enable = true;

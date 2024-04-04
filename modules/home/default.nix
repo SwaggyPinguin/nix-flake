@@ -1,1 +1,1 @@
-{ imports = [ ./core ./opt ]; }
+{imports = [./core ./opt];}

@@ -1,4 +1,10 @@
-{ config, lib, pkgs, userSettings, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  userSettings,
+  ...
+}: {
   config = lib.mkIf (config.default.terminal == "kitty") {
     home.sessionVariables.TERMINAL = "kitty";
     programs.kitty = {
@@ -11,6 +17,6 @@
       shellIntegration.enableZshIntegration = true;
     };
 
-    home.packages = with pkgs; [ kitty kitty-themes zsh ];
+    home.packages = with pkgs; [kitty kitty-themes zsh];
   };
 }

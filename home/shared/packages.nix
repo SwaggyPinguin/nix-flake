@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{pkgs, ...}: {
   home.packages = with pkgs; [
     vim
     neovim
@@ -9,7 +9,8 @@
     zig
     direnv
     nix-direnv
-    nixfmt
+    nixfmt-classic
+    alejandra
     just
   ];
 }

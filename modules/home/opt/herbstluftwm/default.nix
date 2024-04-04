@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   config = lib.mkIf config.modules.herbstluftwm.enable {
     xsession = {
       windowManager.herbstluftwm = let
@@ -6,7 +11,7 @@
         withModKey = lib.mapAttrs' (key: lib.nameValuePair "${mod}-${key}");
       in {
         enable = true;
-        tags = [ "1" "2" "3" "4" "5" "6" "7" "8" "9" ];
+        tags = ["1" "2" "3" "4" "5" "6" "7" "8" "9"];
         settings = {
           window_gap = 5;
           frame_padding = 0;
