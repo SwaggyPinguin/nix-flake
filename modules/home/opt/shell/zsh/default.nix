@@ -8,7 +8,7 @@
     programs.zsh = {
       enable = true;
       enableCompletion = true;
-      shellAliases = import ../aliases.nix {};
+      shellAliases = import ../aliases.nix {inherit pkgs;};
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
       # dotDir = ".config/zsh";

@@ -10,6 +10,7 @@
   modules = {
     herbstluftwm.enable = false;
     p10k.enable = true;
+    tmux.enable = true;
   };
 
   default = {
