@@ -7,7 +7,10 @@
 }: {
   imports = [../../modules/home ../shared];
 
-  modules = {herbstluftwm.enable = false;};
+  modules = {
+    herbstluftwm.enable = false;
+    p10k.enable = true;
+  };
 
   default = {
     shell = "zsh";

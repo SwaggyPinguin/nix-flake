@@ -1,1 +1,1 @@
-{imports = [./zsh];}
+{imports = [./zsh ./p10k];}

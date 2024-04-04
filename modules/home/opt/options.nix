@@ -2,6 +2,7 @@
   options = {
     modules = {
       herbstluftwm.enable = lib.mkEnableOption "Enable herbstluftwm";
+      p10k.enable = lib.mkEnableOption "Enable Powerlevel10k for zsh";
     };
 
     default = {
