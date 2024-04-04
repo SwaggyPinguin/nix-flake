@@ -1,5 +1,6 @@
 {pkgs, ...}: {
   nv = "nvim";
+  lg = "lazygit";
   ls = "eza --icons -l -T -L=1";
   la = "eza --icons -agl -s type";
   mux = "pgrep -vx tmux > /dev/null && \
