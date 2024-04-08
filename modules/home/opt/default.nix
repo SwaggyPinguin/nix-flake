@@ -4,6 +4,7 @@
 
     ./terminal
     ./shell
+    ./step-cli
 
     ./herbstluftwm
   ];

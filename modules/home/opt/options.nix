@@ -4,6 +4,7 @@
       herbstluftwm.enable = lib.mkEnableOption "Enable herbstluftwm";
       p10k.enable = lib.mkEnableOption "Enable Powerlevel10k for zsh";
       tmux.enable = lib.mkEnableOption "Enable tmux";
+      step-cli.enable = lib.mkEnableOption "Enable step-cli";
     };
 
     default = {
