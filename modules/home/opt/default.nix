@@ -5,6 +5,7 @@
     ./terminal
     ./shell
     ./step-cli
+    ./wireguard
 
     ./herbstluftwm
   ];

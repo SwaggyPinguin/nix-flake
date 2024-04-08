@@ -12,6 +12,7 @@
     p10k.enable = true;
     tmux.enable = true;
     step-cli.enable = false;
+    wireguard.enable = false;
   };
 
   default = {
