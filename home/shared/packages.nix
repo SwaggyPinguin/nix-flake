@@ -6,12 +6,29 @@
     element-desktop
     curl
     wget
+    gnumake
+    php
+    yarn
+    python3
+    pipx
+    nodePackages_latest.nodejs
+    nodePackages_latest.prettier
+    prettierd
+    rustup
+    unzip
+    mercurial
+    gnugrep
+    ripgrep
+    fd
     libgcc
+    gcc
     zig
     direnv
     nix-direnv
     nixfmt-classic
     alejandra
     just
+    plocate
+    findutils
   ];
 }

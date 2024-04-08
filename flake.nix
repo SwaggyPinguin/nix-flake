@@ -7,12 +7,15 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # if kitty is not working try this
+    # nixgl.url = "github:nix-community/nixGL";
   };
 
   outputs = {
     self,
     nixpkgs,
     home-manager,
+    # nixgl,
     ...
   }: let
     systemSettings = {
@@ -34,6 +37,7 @@
         allowUnfree = true;
         allowUnfreePredicate = _: true;
       };
+      # overlays = [ nixgl.overlay ];
     };
   in {
     formatter.${systemSettings.system} = pkgs.alejandra;
