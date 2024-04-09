@@ -25,6 +25,12 @@
       enableZshIntegration = true;
     };
 
+    # autostart zsh
+    programs.bash = {
+      enable = true;
+      initExtra = "exec zsh";
+    };
+
     home.packages = with pkgs; [oh-my-zsh zoxide eza];
   };
 }
