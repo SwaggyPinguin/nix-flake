@@ -29,5 +29,11 @@
         };
       };
     };
+
+    home.packages = with pkgs; [
+      # herbstluftwm
+      (herbstluftwm.overrideAttrs (_: o: {disabledTests = o.disabledTests ++ ["test_complete_keybind_offers_additional_mods_without_duplication"];}))
+      xorg.xorgserver
+    ];
   };
 }
