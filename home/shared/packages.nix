@@ -30,5 +30,6 @@
     just
     plocate
     findutils
+    nh
   ];
 }

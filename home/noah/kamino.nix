@@ -16,7 +16,7 @@
   };
 
   default = {
-    shell = "zsh";
+    shell = userSettings.shell;
     terminal = "kitty";
   };
 
@@ -29,7 +29,7 @@
 
   home.packages = with pkgs; [];
 
-  home.sessionVariables = {EDITOR = "nvim";};
+  home.sessionVariables = {EDITOR = userSettings.editor;};
 
   xdg.enable = true;
   xdg.mime.enable = true;

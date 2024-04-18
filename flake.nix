@@ -1,5 +1,5 @@
 {
-  description = "A very basic flake";
+  description = "A very basic flake of SwaggyPinguin";
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
@@ -7,28 +7,32 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # if kitty is not working try this
-    # nixgl.url = "github:nix-community/nixGL";
   };
 
-  outputs = {
+  outputs = inputs @ {
     self,
     nixpkgs,
     home-manager,
-    # nixgl,
     ...
   }: let
     systemSettings = {
       system = "x86_64-linux";
-      hostname = "herbstnix";
+      hostname = "nixos"; # TODO: make dynamic
       stateVersion = "23.11";
+      timezone = "Europe/Berlin";
+      locale = "de_DE.UTF-8";
+      defaultLocale = "en_US.UTF-8"; # used for system language
     };
 
     userSettings = {
-      username = "noah";
-      name = "noah";
+      username = "noah"; # TODO: make dynamic
+      name = "Noah Dahms";
       email = "noahdahms@gmail.com";
-      font = "JetBrainsMono Nerd Font";
+      font = "JetBrainsMono";
+      nerdFont = "JetBrainsMono Nerd Font";
+      fontPkg = "jetbrains-mono";
+      shell = "zsh";
+      editor = "nvim";
     };
 
     pkgs = import nixpkgs {
@@ -37,20 +41,31 @@
         allowUnfree = true;
         allowUnfreePredicate = _: true;
       };
-      # overlays = [ nixgl.overlay ];
     };
   in {
     formatter.${systemSettings.system} = pkgs.alejandra;
 
     settings.experimental-features = ["nix-command" "flakes"];
 
-    # usage: 'home-manager switch --flake .#noah@pc'
+    # usage: 'home-manager switch --flake .#<user@hostname>'
     homeConfigurations = {
-      "noah@pc" = home-manager.lib.homeManagerConfiguration {
+      "noah@kamino" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
-        modules = [./home/noah/pc.nix];
+        modules = [./home/noah/kamino.nix];
         extraSpecialArgs = {
+          inherit systemSettings;
+          inherit userSettings;
+        };
+      };
+    };
+
+    nixosConfigurations = {
+      kamino = nixpkgs.lib.nixosSystem {
+        system = systemSettings.system;
+        modules = [./system/kamino];
+        specialArgs = {
+          inherit pkgs;
           inherit systemSettings;
           inherit userSettings;
         };

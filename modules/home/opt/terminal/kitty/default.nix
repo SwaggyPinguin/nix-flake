@@ -10,7 +10,7 @@
     programs.kitty = {
       enable = true;
       font = {
-        name = userSettings.font;
+        name = userSettings.nerdFont;
         size = 11;
       };
       theme = "Gruvbox Material Dark Medium";

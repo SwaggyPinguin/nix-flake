@@ -1,8 +1,12 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  userSettings,
+  ...
+}: {
   fonts.fontconfig.enable = true;
 
   home.packages = with pkgs; [
-    jetbrains-mono
-    (nerdfonts.override {fonts = ["JetBrainsMono"];})
+    userSettings.fontPkg
+    (nerdfonts.override {fonts = [userSettings.font];})
   ];
 }
