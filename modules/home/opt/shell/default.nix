@@ -1,1 +1,1 @@
-{imports = [./zsh ./p10k];}
+{imports = [./packages.nix ./zsh ./p10k];}

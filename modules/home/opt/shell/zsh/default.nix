@@ -32,6 +32,6 @@
     #   initExtra = "exec zsh";
     # };
 
-    home.packages = with pkgs; [oh-my-zsh zoxide eza];
+    home.packages = with pkgs; [oh-my-zsh zoxide];
   };
 }
