@@ -25,11 +25,12 @@
       enableZshIntegration = true;
     };
 
+    # add this if defaultShell can't be managed with nix (non-nixos systems)
     # autostart zsh
-    programs.bash = {
-      enable = true;
-      initExtra = "exec zsh";
-    };
+    # programs.bash = {
+    #   enable = true;
+    #   initExtra = "exec zsh";
+    # };
 
     home.packages = with pkgs; [oh-my-zsh zoxide eza];
   };
