@@ -29,6 +29,7 @@
       name = "noah";
       email = "noahdahms@gmail.com";
       font = "JetBrainsMono Nerd Font";
+      fontPkg = pkgs.jetbrains-mono;
     };
 
     pkgs = import nixpkgs {
