@@ -47,10 +47,6 @@
   in {
     formatter.${systemSettings.system} = pkgs.alejandra;
 
-    # Ensure nix flakes are enabled
-    package = pkgs.nixFlakes;
-    settings.experimental-features = ["nix-command" "flakes"];
-
     # usage: 'home-manager switch --flake .#<user@hostname>'
     homeConfigurations = {
       "noah@kamino" = home-manager.lib.homeManagerConfiguration {

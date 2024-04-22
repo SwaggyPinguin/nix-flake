@@ -1,4 +1,9 @@
-{pkgs, systemSettings, userSettings, ...}: {
+{
+  pkgs,
+  systemSettings,
+  userSettings,
+  ...
+}: {
   imports = [./services.nix ./sound.nix];
 
   system = {
@@ -16,6 +21,10 @@
       "nixos-config=$HOME/.config/nix/system/${systemSettings.hostname}/configuration.nix"
       "/nix/var/nix/profiles/per-user/root/channels"
     ];
+
+    # Ensure nix flakes are enabled
+    package = pkgs.nixFlakes;
+    settings.experimental-features = ["nix-command" "flakes"];
 
     # Garbage collect
     settings.auto-optimise-store = true;
