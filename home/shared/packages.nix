@@ -3,6 +3,7 @@
     _1password
     _1password-gui
     alejandra
+    cmake
     curl
     direnv
     element-desktop
