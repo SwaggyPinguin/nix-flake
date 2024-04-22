@@ -11,7 +11,7 @@
     userEmail = userSettings.email;
     extraConfig = {
       core = {
-        editor = "nvim";
+        editor = userSettings.editor or "vim";
         fileMode = true;
       };
       credential.helper = "cache --timeout=86400";
