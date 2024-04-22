@@ -1,24 +1,32 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    # element-desktop
+    _1password
+    _1password-gui
     alejandra
     curl
     direnv
+    element-desktop
     fd
+    ffmpeg
     findutils
+    firefox
     gcc
+    gimp
     gnugrep
     gnumake
+    google-chrome
     just
     libgcc
     libvterm
     mercurial
+    mpv
     neovim
     nh
     nix-direnv
     nixfmt-classic
     nodePackages_latest.nodejs
     nodePackages_latest.prettier
+    openvpn
     php
     pipx
     plocate
@@ -26,12 +34,13 @@
     python3
     ripgrep
     rustup
+    spotify
     unzip
     vim
     vscode
     wget
-    zip
     yarn
     zig
+    zip
   ];
 }

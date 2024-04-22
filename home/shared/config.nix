@@ -6,6 +6,7 @@
 }: {
   home.sessionVariables = {
     EDITOR = userSettings.editor;
+    BROWSER = userSettings.browser;
     DEFAULT_BROWSER = pkgs.${userSettings.browser} + "/bin/${userSettings.browser}";
   };
 
