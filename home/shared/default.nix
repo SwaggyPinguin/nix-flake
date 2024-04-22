@@ -1,1 +1,1 @@
-{imports = [./packages.nix];}
+{imports = [./config.nix ./packages.nix];}

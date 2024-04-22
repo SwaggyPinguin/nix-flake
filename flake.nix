@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -17,7 +18,7 @@
   }: let
     systemSettings = {
       system = "x86_64-linux";
-      hostname = "nixos"; # TODO: make dynamic
+      hostname = "kamino"; # TODO: make dynamic
       stateVersion = "23.11";
       timezone = "Europe/Berlin";
       locale = "de_DE.UTF-8";
@@ -33,6 +34,7 @@
       fontPkg = "jetbrains-mono";
       shell = "zsh";
       editor = "nvim";
+      browser = "google-chrome";
     };
 
     pkgs = import nixpkgs {
@@ -45,6 +47,8 @@
   in {
     formatter.${systemSettings.system} = pkgs.alejandra;
 
+    # Ensure nix flakes are enabled
+    package = pkgs.nixFlakes;
     settings.experimental-features = ["nix-command" "flakes"];
 
     # usage: 'home-manager switch --flake .#<user@hostname>'
@@ -52,8 +56,9 @@
       "noah@kamino" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
-        modules = [./home/noah/kamino.nix];
+        modules = [./home/noah/kamino];
         extraSpecialArgs = {
+          inherit inputs;
           inherit systemSettings;
           inherit userSettings;
         };
@@ -65,6 +70,7 @@
         system = systemSettings.system;
         modules = [./system/kamino];
         specialArgs = {
+          inherit inputs;
           inherit pkgs;
           inherit systemSettings;
           inherit userSettings;

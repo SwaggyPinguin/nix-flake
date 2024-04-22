@@ -11,7 +11,7 @@
       enable = true;
       font = {
         name = userSettings.nerdFont;
-        package = userSettings.fontPkg;
+        package = pkgs.${userSettings.fontPkg};
         size = 11;
       };
       theme = "Gruvbox Material Dark Medium";

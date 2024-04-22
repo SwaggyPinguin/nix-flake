@@ -1,35 +1,37 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    vim
-    neovim
-    vscode
-    element-desktop
+    # element-desktop
+    alejandra
     curl
-    wget
-    gnumake
-    php
-    yarn
-    python3
-    pipx
-    nodePackages_latest.nodejs
-    nodePackages_latest.prettier
-    prettierd
-    rustup
-    unzip
-    mercurial
-    gnugrep
-    ripgrep
-    fd
-    libgcc
-    gcc
-    zig
     direnv
+    fd
+    findutils
+    gcc
+    gnugrep
+    gnumake
+    just
+    libgcc
+    libvterm
+    mercurial
+    neovim
+    nh
     nix-direnv
     nixfmt-classic
-    alejandra
-    just
+    nodePackages_latest.nodejs
+    nodePackages_latest.prettier
+    php
+    pipx
     plocate
-    findutils
-    nh
+    prettierd
+    python3
+    ripgrep
+    rustup
+    unzip
+    vim
+    vscode
+    wget
+    zip
+    yarn
+    zig
   ];
 }

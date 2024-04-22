@@ -5,7 +5,7 @@
   systemSettings,
   ...
 }: {
-  imports = [../../modules/home ../shared];
+  imports = [../../../modules/home ../../shared];
 
   modules = {
     herbstluftwm.enable = false;
@@ -28,12 +28,6 @@
   };
 
   home.packages = with pkgs; [];
-
-  home.sessionVariables = {EDITOR = userSettings.editor;};
-
-  xdg.enable = true;
-  xdg.mime.enable = true;
-  xdg.mimeApps.enable = true;
 
   programs.home-manager.enable = true;
 }

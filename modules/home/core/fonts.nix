@@ -6,7 +6,7 @@
   fonts.fontconfig.enable = true;
 
   home.packages = with pkgs; [
-    userSettings.fontPkg
+    (pkgs.${userSettings.fontPkg})
     (nerdfonts.override {fonts = [userSettings.font];})
   ];
 }
