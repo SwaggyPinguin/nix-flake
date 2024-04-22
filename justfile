@@ -2,7 +2,7 @@ _default:
     just --list
 
 # Installation of Nix and setup of Nix the Nix flake
-setup profile="pc": 
+setup profile="kamino": 
 	@echo Installing Nix...
 	curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 	nix run nixpkgs#just -- install {{ profile }}
@@ -12,21 +12,32 @@ check:
     nix flake check
 
 # Install flake and Home-Manager
-install profile="pc":
+install profile="kamino":
 	@echo Installing Home-Manager and setting up home configuration...	
 	nix run nixpkgs#home-manager -- build --flake '.#noah@{{ profile }}' switch
 
 # Update and switch flake
-update profile="pc":
+update profile="kamino":
 	@echo Updating flake and home configuration...
 	nix flake update && just home {{ profile }}
 
-# Home-Manager switch, default is pc
-home profile="pc":
+# Home-Manager switch, default is kamino
+home profile="kamino":
 	@echo Rebuilding home configuration...
-	home-manager switch --flake '.#noah@{{ profile }}'
+	# home-manager switch --flake '.#noah@{{ profile }}'
+	nh home switch . -c 'noah@{{ profile }}'
 
-# NixOS switch, default is pc
-rebuild profile="pc":
+# NixOS switch, default is kamino
+os profile="kamino":
 	@echo Rebuilding system configuration...
-	sudo nixos-rebuild switch --flake '.#{{ profile }}'
+	# sudo nixos-rebuild switch --flake '.#{{ profile }}'
+	nh os switch . --hostname {{ profile }}
+
+# Rebuild Home-Manager and OS
+all profile="kamino":
+	just os {{ profile }}
+	just home {{ profile }}
+
+# List installed packages with Home-Manager
+packages:
+	home-manager packages
