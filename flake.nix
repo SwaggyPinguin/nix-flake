@@ -34,6 +34,7 @@
       fontPkg = "jetbrains-mono";
       shell = "zsh";
       editor = "nvim";
+      extraEditors = ["emacs"];
       browser = "google-chrome";
     };
 

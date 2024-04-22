@@ -2,11 +2,11 @@
   imports = [
     ./options.nix
 
-    ./terminal
+    ./emacs
+    ./herbstluftwm
     ./shell
     ./step-cli
+    ./terminal
     ./wireguard
-
-    ./herbstluftwm
   ];
 }

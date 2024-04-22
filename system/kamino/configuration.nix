@@ -8,6 +8,9 @@
 }: {
   imports = [../shared ../../modules/system];
 
+  # Enable optional modules
+  emacs.enable = builtins.elem "emacs" userSettings.extraEditors;
+
   # Kernel modules
   boot.kernelModules = [
     "nvidia"

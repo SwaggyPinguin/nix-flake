@@ -6,6 +6,7 @@
       tmux.enable = lib.mkEnableOption "Enable tmux";
       step-cli.enable = lib.mkEnableOption "Enable step-cli";
       wireguard.enable = lib.mkEnableOption "Enable wireguard";
+      emacs.enable = lib.mkEnableOption "Enable emacs";
     };
 
     default = {

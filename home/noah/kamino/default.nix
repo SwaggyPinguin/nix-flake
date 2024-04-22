@@ -13,6 +13,7 @@
     tmux.enable = true;
     step-cli.enable = false;
     wireguard.enable = false;
+    emacs.enable = builtins.elem "emacs" userSettings.extraEditors;
   };
 
   default = {
