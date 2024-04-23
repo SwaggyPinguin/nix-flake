@@ -50,6 +50,12 @@
     };
   };
 
+  # define groups
+  # optionally add user to group -> users.groups.plocate.members = [ ... ];
+  users.groups = {
+    plocate = {};
+  };
+
   # Timezone and locale
   time.timeZone = systemSettings.timezone;
   i18n.defaultLocale = systemSettings.defaultLocale;
