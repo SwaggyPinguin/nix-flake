@@ -33,6 +33,7 @@
     plocate
     prettierd
     python3
+    ranger
     ripgrep
     rustup
     spotify
