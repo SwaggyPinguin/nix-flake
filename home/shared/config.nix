@@ -21,6 +21,7 @@ in {
   xdg = {
     enable = true;
     userDirs = {
+      enable = true;
       createDirectories = true;
       music = "${config.home.homeDirectory}/Media/Music";
       videos = "${config.home.homeDirectory}/Media/Videos";
@@ -29,6 +30,7 @@ in {
       download = "${config.home.homeDirectory}/Downloads";
       publicShare = "${config.home.homeDirectory}/Shared";
       desktop = null;
+      templates = null;
       extraConfig = {
         XDG_DEVELOPMENT_DIR = "${config.home.homeDirectory}/development";
         XDG_ORG_DIR = "${config.home.homeDirectory}/org";
