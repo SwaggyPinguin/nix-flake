@@ -3,11 +3,19 @@
   pkgs,
   userSettings,
   ...
-}: {
+}: let
+  mimeApps = {
+    "text/html" = "${userSettings.browser}.desktop";
+    "x-scheme-handler/http" = "${userSettings.browser}.desktop";
+    "x-scheme-handler/https" = "${userSettings.browser}.desktop";
+    "x-scheme-handler/about" = "${userSettings.browser}.desktop";
+    "x-scheme-handler/unknown" = "${userSettings.browser}.desktop";
+    "application/xhtml+xml" = "${userSettings.browser}.desktop";
+  };
+in {
   home.sessionVariables = {
     EDITOR = userSettings.editor;
     BROWSER = userSettings.browser;
-    DEFAULT_BROWSER = pkgs.${userSettings.browser} + "/bin/${userSettings.browser}";
   };
 
   xdg = {
@@ -27,16 +35,11 @@
       };
     };
 
-    mime = {
+    mime.enable = true;
+    mimeApps = {
       enable = true;
-      # defaultApplications = {
-      #   "text/html" = "org.qutebrowser.qutebrowser.desktop";
-      #   "x-scheme-handler/http" = "org.qutebrowser.qutebrowser.desktop";
-      #   "x-scheme-handler/https" = "org.qutebrowser.qutebrowser.desktop";
-      #   "x-scheme-handler/about" = "org.qutebrowser.qutebrowser.desktop";
-      #   "x-scheme-handler/unknown" = "org.qutebrowser.qutebrowser.desktop";
-      # }
+      defaultApplications = mimeApps;
+      associations.added = mimeApps;
     };
-    mimeApps.enable = true;
   };
 }
