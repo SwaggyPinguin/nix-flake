@@ -43,7 +43,7 @@ in {
       enable = true;
       client = {
         enable = true;
-        arguments = [ "-c" "-a" "emacs"];
+        arguments = ["-c" "-a" "emacs"];
       };
       package = pkgs.emacs29;
     };
