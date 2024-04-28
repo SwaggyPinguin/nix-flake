@@ -33,7 +33,10 @@ in {
       ''}";
     };
 
-    # home.packages = with pkgs; [emacs29];
+    home.packages = with pkgs; [
+      emacsPackages.vterm
+    ];
+
     programs.emacs = {
       enable = true;
       package = pkgs.emacs29;
