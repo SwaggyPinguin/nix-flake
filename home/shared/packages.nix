@@ -13,6 +13,7 @@
     firefox
     gcc
     gimp
+    gnome.gnome-tweaks
     gnugrep
     gnumake
     google-chrome
