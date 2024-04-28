@@ -40,6 +40,9 @@ in {
     programs.emacs = {
       enable = true;
       package = pkgs.emacs29;
+      # extraPackages = epkgs: with epkgs; [
+      #   vterm
+      # ];
     };
 
     services.emacs = {
