@@ -1,0 +1,637 @@
+#+TITLE: Doom
+#+AUTHOR: Noah Dahms
+#+DESCRIPTION: The complete Doom Emacs configuration
+
+* Table of Contents :TOC:QUOTE:
+#+BEGIN_QUOTE
+- [[#configuration-for-doom-emacs][Configuration for Doom Emacs]]
+- [[#configel][config.el]]
+  - [[#user-configuration][User Configuration]]
+  - [[#org-mode-configuration][Org Mode Configuration]]
+  - [[#projectile-configuration][Projectile Configuration]]
+  - [[#window-management][Window Management]]
+  - [[#buffer-management][Buffer Management]]
+  - [[#garbage-collection][Garbage Collection]]
+  - [[#dired-configuration][Dired Configuration]]
+  - [[#focus-mode-configuration][Focus Mode Configuration]]
+  - [[#lsp-configuration][LSP Configuration]]
+  - [[#file-configuration][File Configuration]]
+  - [[#php-cs-fixer-configuration][PHP-CS-Fixer Configuration]]
+  - [[#debug-configuration][Debug Configuration]]
+  - [[#vterm-configuration][VTerm Configuration]]
+  - [[#github-copilot-configuration][GitHub Copilot Configuration]]
+  - [[#emmet-configuration][Emmet Configuration]]
+  - [[#writeroom-mode-configuration][Writeroom Mode Configuration]]
+  - [[#avy-jump-configuration][Avy Jump Configuration]]
+  - [[#customel][custom.el]]
+- [[#packageel][package.el]]
+- [[#initel][init.el]]
+#+END_QUOTE
+
+* Configuration for Doom Emacs
+
+Doom Emacs is configured via 3 main files. These 3 main files are:
+[[file:init.el][init.el]] - Allows quick downloads of Emacs packages. These are default packages provided by Doom Emacs.
+[[file:packages.el][packages.el]] - Package manager that allows you to download additional packages from Melpa ([[https:melpa.org/#/][Milkypostman's Emacs Lisp Package Archive]]).
+[[file:config_bak.el][config.el]] - Stores the main configuration.
+
+You can also load separate files inside of [[file:config_bak.el][config.el]] via the =load!= function, like so:
+
+#+begin_src emacs-lisp
+(load! "~/.doom.d/private.el")
+#+end_src
+
+* config.el
+
+This section contains every custom Emacs configuration for the editor or plugins made.
+
+** User Configuration
+#+begin_src emacs-lisp :tangle config.el
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+
+;;;------ User Configuration ------;;;
+
+(setq doom-theme 'doom-one)
+
+;; (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14)
+;;       doom-variable-pitch-font (font-spec :family "JetBrainsMono Nerd Font" :size 14)
+;;       doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 20)
+;;       doom-serif-font (font-spec :family "JetBrainsMono Nerd Font" :size 14))
+
+(setq doom-font (font-spec :family "Liga SFMono Nerd Font" :size 14)
+      doom-variable-pitch-font (font-spec :family "Liga SFMono Nerd Font" :size 14)
+      doom-big-font (font-spec :family "Liga SFMono Nerd Font" :size 20)
+      doom-serif-font (font-spec :family "Liga SFMono Nerd Font" :size 14))
+
+(after! doom-themes
+  (setq doom-themes-enable-bold t
+        doom-themes-enable-italic t))
+
+;; (custom-set-faces!
+;;   '(font-lock-comment-face :slant italic)
+;;   '(font-lock-keyword-face :slant italic))
+
+(setq display-line-numbers-type t) ; nil to disable or relative
+
+;; Icons in completion buffers
+;; (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)
+;; (all-the-icons-completion-mode)
+
+;; This makes non-main buffers dimmer, so you can focus on main buffers
+(solaire-global-mode +1)
+
+;; Beacon shows where the cursor is, even when fast scrolling
+;; (setq beacon-mode t)
+(beacon-mode 1)
+
+;; Don't create backup files
+(setq make-backup-files nil)
+#+end_src
+
+** Org Mode Configuration
+*** Standard Org Mode Configuration
+
+#+begin_src emacs-lisp :tangle config.el
+;; Set default org directory
+(setq org-directory "~/org/")
+
+;; Top-level headings should be bigger!
+(custom-set-faces!
+  '(org-level-1 :inherit outline-1 :height 1.3)
+  '(org-level-2 :inherit outline-2 :height 1.25)
+  '(org-level-3 :inherit outline-3 :height 1.2)
+  '(org-level-4 :inherit outline-4 :height 1.1)
+  '(org-level-5 :inherit outline-5 :height 1.1)
+  '(org-level-6 :inherit outline-6 :height 1.05)
+  '(org-level-7 :inherit outline-7 :height 1.05)
+  )
+
+(after! org (org-eldoc-load))
+
+(with-eval-after-load 'org (global-org-modern-mode))
+
+(setq
+  ;; Edit settings
+  org-auto-align-tags nil
+  org-tags-column 0
+  org-fold-catch-invisible-edits 'show-and-error
+  org-special-ctrl-a/e t
+  org-insert-heading-respect-content t
+
+  ;; Org styling, hide markup etc.
+  org-hide-emphasis-markers t
+  org-pretty-entities t
+  org-ellipsis "…")
+
+(setq-default line-spacing 0)
+
+;; Automatic table of contents is nice
+(if (require 'toc-org nil t)
+    (progn
+      (add-hook 'org-mode-hook 'toc-org-mode)
+      (add-hook 'markdown-mode-hook 'toc-org-mode))
+  (warn "toc-org not found"))
+
+;; Tangle Org files when we save them
+(defun tangle-on-save-org-mode-file()
+  (when (string= (message "%s" major-mode) "org-mode")
+    (org-babel-tangle)))
+
+(add-hook 'after-save-hook 'tangle-on-save-org-mode-file)
+
+;; Better for org source blocks
+;; (setq electric-indent-mode nil)
+;; (setq org-src-window-setup 'current-window)
+;; (set-popup-rule! "^\\*Org Src"
+;;   :side 'top'
+;;   :size 0.9)
+#+end_src
+
+*** Org-auto-tangle
+
+=org-auto-tangle= allows you to add the option =#+auto_tangle: t= in your Org file so that it automatically tangles when you save the document. I have made adding this to your file even easier by creating a function ‘nd/insert-auto-tangle-tag’ and setting it to a keybinding ‘SPC i a’.
+
+#+begin_src emacs-lisp :tangle config.el
+;; (use-package! org-auto-tangle
+;;   :defer t
+;;   :hook (org-mode . org-auto-tangle-mode)
+;;   :config
+;;   (setq org-auto-tangle-default t))
+
+;; (defun nd/insert-auto-tangle-tag ()
+;;   "Insert auto-tangle tag in a literate config."
+;;   (interactive)
+;;   (evil-org-open-below 1)
+;;   (insert "#+auto_tangle: t ")
+;;   (evil-force-normal-state))
+
+;; (map! :leader
+;;       :desc "Insert auto_tangle tag" "i a" #'nd/insert-auto-tangle-tag)
+#+end_src
+
+** Projectile Configuration
+
+#+begin_src emacs-lisp :tangle config.el
+;; Set Path to search for Projects
+(setq projectile-project-search-path '("~/Documents/Projects/bmc/bmc-staging" "~/Documents/Projects/wifimedia4u"))
+
+;; I don't know if this is working
+;; Prevent initializing the home directory as a project if it is managed with git
+(after! projectile
+  (setq projectile-project-root-files-bottom-up
+        (remove ".git"
+          projectile-project-root-files-bottom-up)))
+#+end_src
+
+** Window Management
+
+#+begin_src emacs-lisp :tangle config.el
+;; Quicker window management keybindings
+(bind-key* "C-j" #'evil-window-down)
+(bind-key* "C-k" #'evil-window-up)
+(bind-key* "C-h" #'evil-window-left)
+(bind-key* "C-l" #'evil-window-right)
+(bind-key* "C-q" #'evil-window-delete)
+(bind-key* "M-q" #'kill-current-buffer)
+(bind-key* "M-w" #'+workspace/close-window-or-workspace)
+(bind-key* "M-n" #'next-buffer)
+(bind-key* "M-p" #'previous-buffer)
+(bind-key* "M-z" #'+vterm/toggle)
+(bind-key* "M-e" #'+eshell/toggle)
+(bind-key* (kbd "M-<return>") #'+vterm/here)
+(bind-key* (kbd "M-E") #'+eshell/here)
+#+end_src
+
+** Buffer Management
+
+#+begin_src emacs-lisp :tangle config.el
+(bind-key* "<mouse-4>" #'next-buffer)
+(bind-key* "<mouse-5>" #'previous-buffer)
+
+;; Unique buffer names
+(setq uniquify-buffer-name-style 'forward
+      uniquify-min-dir-content 3)
+
+;; Set buffer file size limit
+(setq default-buffer-file-size-limit (* 1024 1024)) ; Set to 1 MB
+#+end_src
+
+** Garbage Collection
+
+#+begin_src emacs-lisp :tangle config.el
+;; Garbage collection to speed things up
+;; (add-hook 'after-init-hook
+;;           #'(lambda ()
+;;               (setq gc-cons-threshold (* 100 1024 1024))))
+;; (add-hook 'after-focus-change-function 'garbage-collect)
+;; (run-with-idle-timer 5 t 'garbage-collect)
+#+end_src
+
+** Dired Configuration
+
+#+begin_src emacs-lisp :tangle config.el
+;; (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+
+;; (map! :desc "Increase font size"
+;;       "C-=" 'text-scale-increase
+
+;;       :desc "Decrease font size"
+;;       "C--" 'text-scale-decrease
+
+;;       :desc "Jump to dired"
+;;       "M-f" 'dired-jump
+;; )
+#+end_src
+
+** Focus Mode Configuration
+
+#+begin_src emacs-lisp :tangle config.el
+;; (require 'focus)
+
+;; (map! :leader
+;;       :prefix ("F" . "Focus mode")
+;;       :desc "Toggle focus mode"
+;;       "t" 'focus-mode
+
+;;       :desc "Pin focused section"
+;;       "p" 'focus-pin
+
+;;       :desc "Unpin focused section"
+;;       "u" 'focus-unpin)
+
+;; (add-to-list 'focus-mode-to-thing '(org-mode . org-element))
+;; (add-to-list 'focus-mode-to-thing '(php-mode . paragraph))
+;; (add-to-list 'focus-mode-to-thing '(lisp-mode . paragraph))
+#+end_src
+
+** LSP Configuration
+
+#+begin_src emacs-lisp :tangle config.el
+(use-package lsp-mode)
+
+(use-package nix-mode
+  :hook (nix-mode . lsp-deferred))
+
+(use-package php-mode
+  :hook (php-mode . lsp-deferred))
+
+(setq +format-on-save-enabled-modes '(not emacs-lisp-mode sql-mode nix-mode php-mode))
+#+end_src
+
+** File Configuration
+
+#+begin_src emacs-lisp :tangle config.el
+;; File Modes
+(add-to-list 'auto-mode-alist '("\\.html\\.twig\\'" . web-mode))
+#+end_src
+
+** PHP-CS-Fixer Configuration
+
+#+begin_src emacs-lisp :tangle config.el
+(add-hook 'before-save-hook 'php-cs-fixer-before-save)
+(use-package! php-cs-fixer
+  :config
+  (setq php-cs-fixer-config-option (concat (getenv "HOME") "/.config/doom/tools/.php-cs.php")))
+#+end_src
+
+** Debug Configuration
+
+*** Dap Mode Configuration
+
+#+begin_src emacs-lisp :tangle config.el
+(use-package dap-mode
+  :config
+  (dap-ui-mode 1)
+  (require 'dap-php)
+  (dap-php-setup))
+#+end_src
+
+*** Debug Templates
+
+#+begin_src emacs-lisp :tangle config.el
+;; (dap-register-debug-template
+;;  "PHP Listen for Xdebug"
+;;  (list :type "php"
+;;        :request "launch"
+;;        :name "Listen for Xdebug"
+;;        :port 9003
+;;        :stopOnEntry t
+;;        :sourceMaps t
+;;        ;; :pathMappings (ht ("/var/www/bmc" "${workspaceFolder}"))
+;;        ;; :pathMappings (list
+;;        ;;                "/var/www/wifimedia4u" "${workspaceFolder}"
+;;        ;;                "/var/www/bmc" "${workspaceFolder}")
+;;        :log (concat doom-cache-dir "xdebug.log")))
+#+end_src
+
+** VTerm Configuration
+
+#+begin_src emacs-lisp :tangle config.el
+(use-package vterm
+  :commands vterm
+  :config
+  (setq vterm-shell "bash"))
+#+end_src
+
+** GitHub Copilot Configuration
+
+#+begin_src emacs-lisp :tangle config.el
+;; accept completion from copilot and fallback to company
+(use-package! copilot
+  :hook (prog-mode . copilot-mode)
+  :bind (:map copilot-completion-map
+              ("M-j" . 'copilot-accept-completion)
+              ("M-j" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word)))
+              ;; ("<tab>" . 'copilot-accept-completion)
+              ;; ("TAB" . 'copilot-accept-completion)
+              ;; ("C-TAB" . 'copilot-accept-completion-by-word)
+              ;; ("C-<tab>" . 'copilot-accept-completion-by-word)))
+
+;; disable copilot warning
+(use-package copilot
+  :hook
+  (prog-mode . copilot-mode)
+  (copilot-mode . (lambda ()
+                    (setq-local copilot--indent-warning-printed-p t))))
+#+end_src
+
+** Emmet Configuration
+
+#+begin_src emacs-lisp :tangle config.el
+(add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
+(add-hook 'css-mode-hook 'emmet-mode) ;; enable Emmet's css abbreviation.
+(add-hook 'php-mode-hook 'emmet-mode)
+#+end_src
+** Writeroom Mode Configuration
+
+#+begin_src emacs-lisp :tangle config.el
+;; Already set to "SPC t z" (Zen Mode)
+;; (map! :leader
+;;       (:prefix "t"
+;;                :desc "Writeroom Mode" "W" #'writeroom-mode))
+
+(with-eval-after-load 'writeroom-mode
+  (define-key writeroom-mode-map (kbd "C-M-<") #'writeroom-decrease-width)
+  (define-key writeroom-mode-map (kbd "C-M->") #'writeroom-increase-width)
+  (define-key writeroom-mode-map (kbd "C-M-=") #'writeroom-adjust-width))
+#+end_src
+
+** Avy Jump Configuration
+
+#+begin_src emacs-lisp :tangle config.el
+(global-set-key (kbd "C-'") 'avy-goto-char-2)
+#+end_src
+
+** custom.el
+
+#+begin_src emacs-lisp :tangle config.el
+;; Disables custom.el
+(setq custom-file null-device)
+#+end_src
+
+* package.el
+
+#+begin_src emacs-lisp :tangle packages.el
+;; Org
+(package! org-auto-tangle)
+(package! org-modern)
+(package! toc-org)
+
+;; Icons
+;; (package! all-the-icons)
+(package! all-the-icons-completion)
+(package! all-the-icons-dired)
+;; (package! all-the-icons-nerd-fonts)
+
+;; Visual
+(package! solaire-mode)
+(package! beacon)
+(package! rainbow-mode)
+(package! focus)
+(package! writeroom-mode) ;; This is Zen mode
+;; (package! darkroom)
+
+;; Programming
+(package! emmet-mode)
+
+;; PHP
+(package! php-mode)
+(package! php-cs-fixer)
+(package! company-php)
+(package! phpactor)
+
+;; Nix
+(package! nix-mode)
+
+;; Debug
+(package! dap-mode)
+
+;; GitHub Copilot
+(package! copilot
+  :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
+#+end_src
+
+* init.el
+
+This section controls wich default Doom modules are loaded.
+
+#+begin_src emacs-lisp :tangle init.el
+;;; init.el -*- lexical-binding: t; -*-
+
+;; This file controls what Doom modules are enabled and what order they load
+;; in. Remember to run 'doom sync' after modifying it!
+
+;; NOTE Press 'SPC h d h' (or 'C-h d h' for non-vim users) to access Doom's
+;;      documentation. There you'll find a link to Doom's Module Index where all
+;;      of our modules are listed, including what flags they support.
+
+;; NOTE Move your cursor over a module's name (or its flags) and press 'K' (or
+;;      'C-c c k' for non-vim users) to view its documentation. This works on
+;;      flags as well (those symbols that start with a plus).
+;;
+;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
+;;      directory (for easy access to its source code).
+
+(doom! :input
+       ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
+       ;;chinese
+       ;;japanese
+       ;;layout            ; auie,ctsrnm is the superior home row
+
+       :completion
+       (company +childframe)           ; the ultimate code completion backend
+       ;;(corfu +orderless)  ; complete with cap(f), cape and a flying feather!
+       ;;helm              ; the *other* search engine for love and life
+       ;;ido               ; the other *other* search engine...
+       ;;ivy               ; a search engine for love and life
+       vertico           ; the search engine of the future
+
+       :ui
+       ;;deft              ; notational velocity for Emacs
+       doom              ; what makes DOOM look the way it does
+       doom-dashboard    ; a nifty splash screen for Emacs
+       ;;doom-quit         ; DOOM quit-message prompts when you quit Emacs
+       ;;(emoji +unicode)  ; 🙂
+       hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
+       ;;hydra
+       indent-guides     ; highlighted indent columns
+       ligatures         ; ligatures and symbols to make your code pretty again
+       ;;minimap           ; show a map of the code on the side
+       modeline          ; snazzy, Atom-inspired modeline, plus API
+       ;;nav-flash         ; blink cursor line after big motions
+       ;;neotree           ; a project drawer, like NERDTree for vim
+       ophints           ; highlight the region an operation acts on
+       (popup +defaults)   ; tame sudden yet inevitable temporary windows
+       tabs              ; a tab bar for Emacs
+       treemacs          ; a project drawer, like neotree but cooler
+       ;;unicode           ; extended unicode support for various languages
+       (vc-gutter +pretty) ; vcs diff in the fringe
+       vi-tilde-fringe   ; fringe tildes to mark beyond EOB
+       ;;window-select     ; visually switch windows
+       workspaces        ; tab emulation, persistence & separate workspaces
+       zen               ; distraction-free coding or writing
+
+       :editor
+       (evil +everywhere); come to the dark side, we have cookies
+       file-templates    ; auto-snippets for empty files
+       fold              ; (nigh) universal code folding
+       ;;(format +onsave)  ; automated prettiness
+       ;;god               ; run Emacs commands without modifier keys
+       ;;lispy             ; vim for lisp, for people who don't like vim
+       multiple-cursors  ; editing in many places at once
+       ;;objed             ; text object editing for the innocent
+       ;;parinfer          ; turn lisp into python, sort of
+       ;;rotate-text       ; cycle region at point between text candidates
+       snippets          ; my elves. They type so I don't have to
+       ;;word-wrap         ; soft wrapping with language-aware indent
+
+       :emacs
+       dired             ; making dired pretty [functional]
+       electric          ; smarter, keyword-based electric-indent
+       ;;ibuffer         ; interactive buffer management
+       undo              ; persistent, smarter undo for your inevitable mistakes
+       vc                ; version-control and Emacs, sitting in a tree
+
+       :term
+       eshell            ; the elisp shell that works everywhere
+       ;;shell             ; simple shell REPL for Emacs
+       ;;term              ; basic terminal emulator for Emacs
+       vterm             ; the best terminal emulation in Emacs
+
+       :checkers
+       syntax              ; tasing you for every semicolon you forget
+       ;;(spell +flyspell) ; tasing you for misspelling mispelling
+       ;;grammar           ; tasing grammar mistake every you make
+
+       :tools
+       ;;ansible
+       ;;biblio            ; Writes a PhD for you (citation needed)
+       ;;collab            ; buffers with friends
+       (debugger +lsp)          ; FIXME stepping through code, to help you add bugs
+       ;;direnv
+       docker
+       ;;editorconfig      ; let someone else argue about tabs vs spaces
+       ;;ein               ; tame Jupyter notebooks with emacs
+       (eval +overlay)     ; run code, run (also, repls)
+       lookup              ; navigate your code and its documentation
+       lsp               ; M-x vscode
+       magit             ; a git porcelain for Emacs
+       ;;make              ; run make tasks from Emacs
+       ;;pass              ; password manager for nerds
+       ;;pdf               ; pdf enhancements
+       ;;prodigy           ; FIXME managing external services & code builders
+       ;;rgb               ; creating color strings
+       ;;taskrunner        ; taskrunner for all your projects
+       ;;terraform         ; infrastructure as code
+       ;;tmux              ; an API for interacting with tmux
+       ;;tree-sitter       ; syntax and parsing, sitting in a tree...
+       ;;upload            ; map local to remote projects via ssh/ftp
+
+       :os
+       (:if (featurep :system 'macos) macos)  ; improve compatibility with macOS
+       ;;tty               ; improve the terminal Emacs experience
+
+       :lang
+       ;;agda              ; types of types of types of types...
+       ;;beancount         ; mind the GAAP
+       ;;(cc +lsp)         ; C > C++ == 1
+       ;;clojure           ; java with a lisp
+       ;;common-lisp       ; if you've seen one lisp, you've seen them all
+       ;;coq               ; proofs-as-programs
+       ;;crystal           ; ruby at the speed of c
+       ;;csharp            ; unity, .NET, and mono shenanigans
+       ;;data              ; config/data formats
+       ;;(dart +flutter)   ; paint ui and not much else
+       ;;dhall
+       ;;elixir            ; erlang done right
+       ;;elm               ; care for a cup of TEA?
+       emacs-lisp        ; drown in parentheses
+       ;;erlang            ; an elegant language for a more civilized age
+       ;;ess               ; emacs speaks statistics
+       ;;factor
+       ;;faust             ; dsp, but you get to keep your soul
+       ;;fortran           ; in FORTRAN, GOD is REAL (unless declared INTEGER)
+       ;;fsharp            ; ML stands for Microsoft's Language
+       ;;fstar             ; (dependent) types and (monadic) effects and Z3
+       ;;gdscript          ; the language you waited for
+       ;;(go +lsp)         ; the hipster dialect
+       ;;(graphql +lsp)    ; Give queries a REST
+       ;;(haskell +lsp)    ; a language that's lazier than I am
+       ;;hy                ; readability of scheme w/ speed of python
+       ;;idris             ; a language you can depend on
+       json              ; At least it ain't XML
+       ;;(java +lsp)       ; the poster child for carpal tunnel syndrome
+       javascript        ; all(hope(abandon(ye(who(enter(here))))))
+       ;;julia             ; a better, faster MATLAB
+       ;;kotlin            ; a better, slicker Java(Script)
+       ;;latex             ; writing papers in Emacs has never been so fun
+       ;;lean              ; for folks with too much to prove
+       ;;ledger            ; be audit you can be
+       lua               ; one-based indices? one-based indices
+       markdown          ; writing docs for people to ignore
+       ;;nim               ; python + lisp at the speed of c
+       nix               ; I hereby declare "nix geht mehr!"
+       ;;ocaml             ; an objective camel
+       org               ; organize your plain life in plain text
+       php               ; perl's insecure younger brother
+       ;;plantuml          ; diagrams for confusing people more
+       ;;purescript        ; javascript, but functional
+       ;;python            ; beautiful is better than ugly
+       ;;qt                ; the 'cutest' gui framework ever
+       ;;racket            ; a DSL for DSLs
+       ;;raku              ; the artist formerly known as perl6
+       ;;rest              ; Emacs as a REST client
+       ;;rst               ; ReST in peace
+       ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
+       ;;(rust +lsp)       ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       ;;scala             ; java, but good
+       ;;(scheme +guile)   ; a fully conniving family of lisps
+       sh                ; she sells {ba,z,fi}sh shells on the C xor
+       ;;sml
+       ;;solidity          ; do you need a blockchain? No.
+       ;;swift             ; who asked for emoji variables?
+       ;;terra             ; Earth and Moon in alignment for performance.
+       web               ; the tubes
+       yaml              ; JSON, but readable
+       ;;zig               ; C, but simpler
+
+       :email
+       ;;(mu4e +org +gmail)
+       ;;notmuch
+       ;;(wanderlust +gmail)
+
+       :app
+       ;;calendar
+       ;;emms
+       ;;everywhere        ; *leave* Emacs!? You must be joking
+       ;;irc               ; how neckbeards socialize
+       ;;(rss +org)        ; emacs as an RSS reader
+       ;;twitter           ; twitter client https://twitter.com/vnought
+
+       :config
+       ;;literate
+       (default +bindings +smartparens))
+#+end_src
+
