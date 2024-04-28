@@ -1,1 +1,1 @@
-{imports = [./git.nix ./fonts.nix];}
+{imports = [./git.nix ./fonts];}
