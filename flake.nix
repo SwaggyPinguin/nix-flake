@@ -42,6 +42,7 @@
       editor = "nvim";
       extraEditors = ["emacs"];
       browser = "google-chrome";
+      theme = "gruvbox";
     };
 
     pkgs = import nixpkgs {

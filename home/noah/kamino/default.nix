@@ -14,6 +14,7 @@
     step-cli.enable = false;
     wireguard.enable = false;
     emacs.enable = builtins.elem "emacs" userSettings.extraEditors;
+    gtk.enable = builtins.hasAttr "theme" userSettings && userSettings.theme != "";
   };
 
   default = {

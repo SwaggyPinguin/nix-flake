@@ -13,7 +13,7 @@
     firefox
     gcc
     gimp
-    gnome.gnome-tweaks
+    gnome.nautilus
     gnugrep
     gnumake
     google-chrome
@@ -42,6 +42,7 @@
     vim
     vscode
     wget
+    xfce.thunar
     yarn
     zig
     zip

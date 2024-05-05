@@ -7,6 +7,7 @@
       step-cli.enable = lib.mkEnableOption "Enable step-cli";
       wireguard.enable = lib.mkEnableOption "Enable wireguard";
       emacs.enable = lib.mkEnableOption "Enable emacs";
+      gtk.enable = lib.mkEnableOption "Enable gtk themes";
     };
 
     default = {
