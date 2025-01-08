@@ -15,7 +15,7 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 After the installation of nix you have to clone this repository.
 
 ```bash
-nix run nixpkgs#git -- clone https://github.com/SwaggyPinguin/nix-flake.git ~/.config/nix
+nix --extra-experimental-features "nix-command flakes" run nixpkgs#git -- clone https://github.com/SwaggyPinguin/nix-flake.git ~/.config/nix
 ```
 
 ## Setup and manage configuration
