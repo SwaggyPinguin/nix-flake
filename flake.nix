@@ -24,7 +24,7 @@
   }: let
     systemSettings = {
       system = "x86_64-linux";
-      hostname = "kamino"; # TODO: make dynamic
+      hostname = "mustafar"; # TODO: make dynamic
       stateVersion = "23.11";
       timezone = "Europe/Berlin";
       locale = "de_DE.UTF-8";
@@ -42,7 +42,7 @@
       editor = "nvim";
       extraEditors = ["emacs"];
       browser = "google-chrome";
-      theme = "gruvbox";
+      # theme = "gruvbox";
     };
 
     pkgs = import nixpkgs {
@@ -67,12 +67,34 @@
           inherit userSettings;
         };
       };
+
+      "noah@mustafar" = home-manager.lib.homeManagerConfiguration {
+        inherit pkgs;
+
+        modules = [./home/noah/mustafar];
+        extraSpecialArgs = {
+          inherit inputs;
+          inherit systemSettings;
+          inherit userSettings;
+        };
+      };
     };
 
     nixosConfigurations = {
       kamino = nixpkgs.lib.nixosSystem {
         system = systemSettings.system;
         modules = [./system/kamino];
+        specialArgs = {
+          inherit inputs;
+          inherit pkgs;
+          inherit systemSettings;
+          inherit userSettings;
+        };
+      };
+
+      mustafar = nixpkgs.lib.nixosSystem {
+        system = systemSettings.system;
+        modules = [./system/mustafar];
         specialArgs = {
           inherit inputs;
           inherit pkgs;
