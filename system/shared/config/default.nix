@@ -4,7 +4,10 @@
   userSettings,
   ...
 }: {
-  imports = [./services.nix ./sound.nix];
+  imports = [
+	# ./services.nix 
+	./sound.nix
+  ];
 
   system = {
     stateVersion = systemSettings.stateVersion;
