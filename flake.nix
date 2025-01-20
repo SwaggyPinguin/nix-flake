@@ -25,7 +25,7 @@
     systemSettings = {
       system = "x86_64-linux";
       hostname = "mustafar"; # TODO: make dynamic
-      stateVersion = "23.11";
+      stateVersion = "24.11";
       timezone = "Europe/Berlin";
       locale = "de_DE.UTF-8";
       defaultLocale = "en_US.UTF-8"; # used for system language

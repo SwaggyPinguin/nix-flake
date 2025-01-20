@@ -26,7 +26,7 @@
     ];
 
     # Ensure nix flakes are enabled
-    package = pkgs.nixFlakes;
+    # package = pkgs.nixFlakes;
     settings.experimental-features = ["nix-command" "flakes"];
 
     # Garbage collect
@@ -80,7 +80,7 @@
   programs.${userSettings.shell}.enable = true;
 
   fonts = {
-    packages = with pkgs; [(nerdfonts.override {fonts = [userSettings.font];})];
+    packages = with pkgs; [(nerd-fonts.${userSettings.fontPkg})];
     fontDir.enable = true;
   };
 

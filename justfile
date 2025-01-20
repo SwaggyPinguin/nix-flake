@@ -20,6 +20,7 @@ install profile="kamino":
 update profile="kamino":
 	@echo Updating flake and home configuration...
 	nh os switch --update . --hostname {{ profile }} && nix flake update && just home {{ profile }}
+	# nix flake update && just home {{ profile }}
 
 # Home-Manager switch, default is kamino
 home profile="kamino":
