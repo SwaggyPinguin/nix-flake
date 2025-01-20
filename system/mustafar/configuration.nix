@@ -42,16 +42,31 @@
 
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
-  services.xserver.enable = true;
+  services.xserver = {
+    enable = false;
+    xkb = {
+        layout = "us";
+        variant = "";
+    };
+  };
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
 
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
+  # Configure xdg portal
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    extraPortals = [
+        pkgs.xdg-desktop-portal-gtk
+        pkgs.xdg-desktop-portal
+    ];
+    configPackages = [
+        pkgs.xdg-desktop-portal-gtk
+        pkgs.xdg-desktop-portal-hyprland
+        pkgs.xdg-desktop-portal
+    ];
   };
 
   # Enable CUPS to print documents.
@@ -70,6 +85,9 @@
 
   # Install firefox.
   programs.firefox.enable = true;
+
+  # Enable Hyprland
+  programs.hyprland.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
