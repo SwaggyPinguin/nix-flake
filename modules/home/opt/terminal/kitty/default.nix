@@ -14,7 +14,7 @@
         package = pkgs.${userSettings.fontPkg};
         size = 11;
       };
-      theme = "Gruvbox Material Dark Medium";
+      themeFile = "GruvboxMaterialDarkMedium";
       shellIntegration.enableZshIntegration = true;
       settings = {
         "enable_audio_bell" = false;

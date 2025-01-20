@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    _1password
+    _1password-cli
     _1password-gui
     alejandra
     cmake
@@ -13,7 +13,7 @@
     firefox
     gcc
     gimp
-    gnome.nautilus
+    nautilus
     gnugrep
     gnumake
     google-chrome

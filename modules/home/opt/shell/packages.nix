@@ -4,5 +4,6 @@
     bat
     eza
     onefetch
+    fastfetch
   ];
 }

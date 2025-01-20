@@ -9,8 +9,8 @@ in {
 
   home.packages = with pkgs; [
     (pkgs.${userSettings.fontPkg})
+    (nerd-fonts.${userSettings.fontPkg})
     sf-mono-liga-bin
     apple-fonts
-    (nerdfonts.override {fonts = [userSettings.font];})
   ];
 }
