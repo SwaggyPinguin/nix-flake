@@ -9,6 +9,7 @@
 
   modules = {
     herbstluftwm.enable = false;
+    niri.enable = true;
     p10k.enable = false;
     tmux.enable = false;
     step-cli.enable = false;
@@ -28,7 +29,7 @@
     enableNixpkgsReleaseCheck = false;
   };
 
-  home.packages = with pkgs; [];
+  home.packages = with pkgs; [ niri ];
 
   programs.home-manager.enable = true;
 }

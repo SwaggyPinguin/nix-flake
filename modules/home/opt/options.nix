@@ -2,6 +2,7 @@
   options = {
     modules = {
       herbstluftwm.enable = lib.mkEnableOption "Enable herbstluftwm";
+      niri.enable = lib.mkEnableOption "Enable niri wm";
       p10k.enable = lib.mkEnableOption "Enable Powerlevel10k for zsh";
       tmux.enable = lib.mkEnableOption "Enable tmux";
       step-cli.enable = lib.mkEnableOption "Enable step-cli";

@@ -8,6 +8,7 @@
     ./shell
     ./step-cli
     ./terminal
+    ./wayland
     ./wireguard
   ];
 }
