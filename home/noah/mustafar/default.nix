@@ -29,7 +29,7 @@
     enableNixpkgsReleaseCheck = false;
   };
 
-  home.packages = with pkgs; [ niri ];
+  home.packages = with pkgs; [];
 
   programs.home-manager.enable = true;
 }

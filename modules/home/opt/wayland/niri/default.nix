@@ -5,14 +5,17 @@
   pkgs,
   ...
 }: {
-  config = lib.mkIf config.modules.herbstluftwm.enable {
-    imports = [ 
-      inputs.niri.homeModules.niri
-      ./settings.nix
-      # ./binds.nix
-      # ./rules.nix
-    ];
+  imports = [
+    inputs.niri.homeModules.niri
+    ./settings.nix
+    # ./binds.nix
+    # ./rules.nix
+  ];
 
-    home.packages = with pkgs; [kitty kitty-themes zsh];
+  config = lib.mkIf config.modules.niri.enable {
+    home.packages = with pkgs; [
+      niri
+      seatd
+    ];
   };
 }

@@ -5,8 +5,8 @@
   ...
 }: {
   imports = [
-	# ./services.nix 
-	./sound.nix
+    # ./services.nix
+    ./sound.nix
   ];
 
   system = {
