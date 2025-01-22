@@ -14,7 +14,7 @@
 
   config = lib.mkIf config.modules.niri.enable {
     home.packages = with pkgs; [
-      niri
+      # niri
       seatd
     ];
   };

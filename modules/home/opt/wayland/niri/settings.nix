@@ -22,7 +22,7 @@
         warp-mouse-to-focus = true;
         workspace-auto-back-and-forth = true;
       };
-      output = {
+      outputs = {
         "Virtual-1" = {
           scale = 1.0;
           mode = {
