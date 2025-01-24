@@ -13,11 +13,11 @@
 
     default = {
       terminal = lib.mkOption {
-        type = lib.types.enum ["kitty" "alacritty" "wezterm"];
+        type = lib.types.enum ["kitty" "alacritty" "wezterm" "ghostty"];
         default = "kitty";
       };
       shell = lib.mkOption {
-        type = lib.types.enum ["zsh" "bash" "fish"];
+        type = lib.types.enum ["zsh" "bash" "fish" "nushell"];
         default = "zsh";
       };
     };

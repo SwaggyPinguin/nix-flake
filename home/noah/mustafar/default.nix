@@ -19,7 +19,7 @@
 
   default = {
     shell = userSettings.shell;
-    terminal = "kitty";
+    terminal = userSettings.terminal;
   };
 
   home = {

@@ -19,6 +19,10 @@
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    ghostty = {
+      url = "github:ghostty-org/ghostty";
+    };
   };
 
   outputs = inputs @ {
@@ -44,6 +48,7 @@
       nerdFont = "JetBrainsMono Nerd Font";
       fontPkg = "jetbrains-mono";
       shell = "zsh";
+      terminal = "ghostty";
       editor = "nvim";
       extraEditors = ["emacs"];
       browser = "google-chrome";
