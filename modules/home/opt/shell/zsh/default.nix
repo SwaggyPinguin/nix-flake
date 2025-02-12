@@ -20,11 +20,6 @@
       };
     };
 
-    programs.zoxide = {
-      enable = true;
-      enableZshIntegration = true;
-    };
-
     # add this if defaultShell can't be managed with nix (non-nixos systems)
     # autostart zsh
     programs.bash = {

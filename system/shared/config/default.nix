@@ -1,5 +1,6 @@
 {
   pkgs,
+  lib,
   systemSettings,
   userSettings,
   ...
@@ -77,7 +78,9 @@
   # Default shell
   environment.shells = with pkgs; [(pkgs.${userSettings.shell})];
   users.defaultUserShell = pkgs.${userSettings.shell};
-  programs.${userSettings.shell}.enable = true;
+  # programs = lib.mkIf (builtins.elem userSettings.shell [ "zsh" "fish" ]) {
+  #   ${userSettings.shell}.enable = true;
+  # };
 
   fonts = {
     packages = with pkgs; [(nerd-fonts.${userSettings.fontPkg})];

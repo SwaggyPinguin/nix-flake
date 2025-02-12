@@ -9,8 +9,8 @@
     home.sessionVariables.TERMINAL = "ghostty";
     programs.ghostty = {
       enable = true;
-      enableZshIntegration = true;
-      enableFishIntegration = true;
+      enableZshIntegration = config.programs.zsh.enable;
+      enableFishIntegration = config.programs.fish.enable;
       installVimSyntax = true;
       installBatSyntax = true;
       settings = {

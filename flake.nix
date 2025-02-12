@@ -47,7 +47,7 @@
       font = "JetBrainsMono";
       nerdFont = "JetBrainsMono Nerd Font";
       fontPkg = "jetbrains-mono";
-      shell = "zsh";
+      shell = "nushell";
       terminal = "ghostty";
       editor = "nvim";
       extraEditors = ["emacs"];
